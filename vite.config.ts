@@ -3,7 +3,7 @@ import vue from '@vitejs/plugin-vue'
 import legacy from '@vitejs/plugin-legacy'
 import WindiCSS from 'vite-plugin-windicss'
 import eslintPlugin from "@nabla/vite-plugin-eslint"
-import mockServer from 'vite-plugin-mock-server'
+// import mockServer from 'vite-plugin-mock-server'
 import Icons from 'unplugin-icons/vite'
 import IconsResolver from 'unplugin-icons/resolver'
 import AutoImport from 'unplugin-auto-import/vite'
@@ -42,9 +42,9 @@ export default defineConfig({
         fix: true
       }
     }),
-    mockServer({
-      logLevel: 'info'
-    }),
+    // mockServer({
+    //   logLevel: 'info'
+    // }),
     AutoImport({
       // 全局导入
       imports: ['vue', 'pinia', 'vue-router', '@vueuse/core'],
@@ -56,7 +56,13 @@ export default defineConfig({
     }),
     Components({
       dts: 'src/types/components.d.ts',
-      resolvers: [IconsResolver(), VueUseComponentsResolver(), AntDesignVueResolver()]
+      resolvers: [IconsResolver(),
+        VueUseComponentsResolver(),
+        AntDesignVueResolver({
+          importCss: false,
+          importStyle: false,
+        }),
+      ]
     }),
     legacy({
       targets: ['ie >= 11'],
@@ -80,13 +86,13 @@ export default defineConfig({
     port: 3000, // 端口号
     cors: true, // 跨域设置允许
     // 接口代理
-    // proxy: {
-    //   '/api': {
-    //     target: 'http://localhost:8080/',
-    //     changeOrigin: true, // 允许跨域
-    //     rewrite: (path) => path.replace('/api/', '/'),
-    //   },
-    // },
+    proxy: {
+      '/api/v1': {
+        target: 'https://www.agilityjin.top',
+        changeOrigin: true, // 允许跨域
+        // rewrite: (path) => path.replace('/api/', '/'),
+      },
+    },
   },
   build: {
     minify: 'terser',

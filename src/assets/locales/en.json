@@ -8,5 +8,11 @@
   "login": "Login",
   "register": "Register",
   "home": "Home",
-  "internalSearch": "Internal search"
+  "internalSearch": "Internal search",
+  "keywordSearchPlaceholder": "Please enter a keyword search",
+  "baidu": "Baidu",
+  "google": "Google",
+  "search": "Search",
+  "defaultTheme": "Default theme",
+  "darkTheme": "Dark theme"
 }

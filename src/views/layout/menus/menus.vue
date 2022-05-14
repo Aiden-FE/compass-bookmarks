@@ -3,11 +3,25 @@
 import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n();
+// eslint-disable-next-line no-undef
+const context = useLocalStorage<Record<string, any>>('context', null);
+
 const menus = [{
   label: 'home',
   key: '/',
 }];
+if (context.value) {
+  menus.push({
+    label: '个人中心',
+    key: '/user',
+  });
+}
 const activeMenuKey = ref(['/']);
+// eslint-disable-next-line no-undef
+const router = useRouter();
+const activeMenuChange = ({ key }: {key: string}) => {
+  router.push(key);
+};
 </script>
 
 <template>
@@ -15,6 +29,7 @@ const activeMenuKey = ref(['/']);
     class="cp-header__menus"
     v-model:selected-keys="activeMenuKey"
     mode="horizontal"
+    @click="activeMenuChange"
   >
     <a-menu-item
       v-for="item in menus"

@@ -1,4 +1,5 @@
 <template>
+  <AppBanner />
   <div>{{ t('currentLanguage') }}: {{ locale }}</div>
   <button @click="toggleLanguage">
     {{ t('toggleLanguage') }}
@@ -18,7 +19,8 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import { Theme } from '@compass-aiden/utils';
-import { getUserInfoById } from '~/http';
+import { getUserInfoById, getUsers } from '~/http';
+import AppBanner from './banner.vue';
 
 const { locale, t } = useI18n();
 const theme = inject<Theme>('Theme');
@@ -28,6 +30,10 @@ function toggleLanguage() {
 }
 
 const userInfo = ref('');
+
+getUsers().subscribe((result) => {
+  console.log('users: ', result);
+});
 
 function toggleTheme() {
   if (!theme) return;

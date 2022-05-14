@@ -1,20 +1,19 @@
 export const COMMON_THEME = {
+  '--cp-primary-color': '#C30D23',
   '--text_selection': '#fff',
-  '--text_selection_bg': 'var(--primary)',
+  '--text_selection_bg': 'var(--cp-primary-color)',
 };
 
 export const LIGHT_THEME = {
-  '--primary': '#00C0C9',
-  '--font_color': '#212121',
-  '--page_background': '#F0F0F0',
+  '--cp-font-color': '#212121',
+  '--cp-page-background': '#F0F0F0',
+  '--cp-header-bg': '#fff',
 };
 
 export const DARK_THEME = {
-  '--primary': '#1BF2B3',
-  '--font_color': '#FFFFFF',
-  '--page_background': '#18182B',
+  '--cp-font-color': '#FFFFFF',
+  '--cp-page-background': '#18182B',
+  '--cp-header-bg': '#18182B',
   '--scrollbar_track': '#2B2E4A',
   '--scrollbar_thumb': '#676C96',
-  // apply styles
-  'box-shadow': 'inset 0px 0 0px 3px #1B1D30',
 };

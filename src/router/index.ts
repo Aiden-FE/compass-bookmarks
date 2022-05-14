@@ -2,11 +2,11 @@ import { createRouter, createWebHistory } from 'vue-router';
 import NProgress from 'nprogress';
 
 const Home = () => import('~/views/home/home.vue');
-const About = { template: '<div>About</div>' };
+const User = () => import('~/views/user/user.vue');
 
 const routes = [
   { path: '/', component: Home },
-  { path: '/about', component: About },
+  { path: '/user', component: User },
 ];
 
 const router = createRouter({

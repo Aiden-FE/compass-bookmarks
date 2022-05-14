@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import AppHeader from './views/layout/header.vue'
+import AppHeader from './views/layout/header.vue';
 </script>
 
 <template>
   <a-layout>
     <a-layout-header
-      class="cp-header"
+      class="cp-header px-40"
     >
       <AppHeader />
     </a-layout-header>
-    <a-layout-content style="padding: 0 50px">
+    <a-layout-content>
       <router-view />
     </a-layout-content>
     <a-layout-footer style="text-align: center">
@@ -24,5 +24,5 @@ import AppHeader from './views/layout/header.vue'
   display flex
   zIndex: 1 !important
   width: '100%' !important
-  background #fff
+  background-color var(--cp-header-bg, #fff)
 </style>

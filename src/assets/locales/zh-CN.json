@@ -8,5 +8,11 @@
   "login": "登录",
   "register": "注册",
   "home": "首页",
-  "internalSearch": "站内搜索"
+  "internalSearch": "站内搜索",
+  "keywordSearchPlaceholder": "请输入关键字搜索",
+  "baidu": "百度",
+  "google": "谷歌",
+  "search": "搜索",
+  "defaultTheme": "默认主题",
+  "darkTheme": "暗黑主题",
 }
