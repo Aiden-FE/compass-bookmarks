@@ -4,11 +4,11 @@ export function getUserInfoById(userId: number) {
   return Http.get(`users/${userId}`);
 }
 
-export function getUsers () {
+export function getUsers() {
   return Http.get('users');
 }
 
-export function login (data: {
+export function login(data: {
   phone?: string
   email?: string
   emailCaptcha?: number
@@ -16,5 +16,5 @@ export function login (data: {
   password: string
 }) {
   return Http.post('users/login')
-    .body(data)
+    .body(data);
 }

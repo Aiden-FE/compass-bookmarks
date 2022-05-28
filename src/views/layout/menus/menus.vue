@@ -1,21 +1,24 @@
 <script setup lang="ts">
-
 import { useI18n } from 'vue-i18n';
+import { userStore } from '~/store';
 
 const { t } = useI18n();
-// eslint-disable-next-line no-undef
-const context = useLocalStorage<Record<string, any>>('context', null);
+const { getUserInfo } = storeToRefs(userStore());
 
-const menus = [{
+const menus = ref([{
   label: 'home',
   key: '/',
-}];
-if (context.value) {
-  menus.push({
-    label: '个人中心',
+}]);
+watchEffect(() => {
+  menus.value = [{
+    label: 'home',
+    key: '/',
+  }].concat(getUserInfo.value ? {
+    label: 'userCenter',
     key: '/user',
-  });
-}
+  } : []);
+});
+
 const activeMenuKey = ref(['/']);
 // eslint-disable-next-line no-undef
 const router = useRouter();

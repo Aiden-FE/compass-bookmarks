@@ -6,6 +6,7 @@ import { message } from 'ant-design-vue';
 import { asyncTask } from '@compass-aiden/utils';
 import { login } from '~/http';
 import { debounce } from 'lodash-es';
+import { userStore } from '~/store';
 import { CompassForm, CompassFormSchema } from './common';
 
 defineProps({
@@ -14,9 +15,8 @@ defineProps({
     default: false,
   },
 });
-// eslint-disable-next-line no-undef
-const context = useLocalStorage<unknown>('context', null);
-// eslint-disable-next-line
+const { setUserInfo } = userStore();
+// eslint-disable-next-line no-unused-vars
 const emits = defineEmits<{(event: 'update:visible', val: boolean): void
 }>();
 
@@ -132,7 +132,7 @@ const submit = debounce(async () => {
   login(params).subscribe(
     (ctx) => {
       message.success('登录成功');
-      context.value = JSON.stringify(ctx);
+      setUserInfo(ctx);
       close();
     },
   );

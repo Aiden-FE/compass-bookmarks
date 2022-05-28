@@ -1,8 +1,9 @@
 <script setup lang="ts">
-// eslint-disable-next-line no-undef
-const context = useLocalStorage('context', null);
+import { userStore } from '~/store';
+
+const { getUserInfo } = storeToRefs(userStore());
 </script>
 
 <template>
-  {{ JSON.parse(context) }}
+  {{ getUserInfo }}
 </template>

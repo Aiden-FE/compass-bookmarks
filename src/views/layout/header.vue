@@ -2,6 +2,8 @@
 import { useI18n } from 'vue-i18n';
 import { Theme } from '@compass-aiden/utils';
 import AppLoginModal from '~/components/login.vue';
+import { BookmarksStore, userStore } from '~/store';
+import { debounce } from 'lodash-es';
 import AppMenus from './menus/menus.vue';
 
 const theme = inject<Theme>('Theme');
@@ -17,7 +19,8 @@ const languageOptions = [{
   label: 'English',
 }];
 // eslint-disable-next-line no-undef
-const context = useLocalStorage<Record<string, any>>('context', null);
+const { getUserInfo } = storeToRefs(userStore());
+const { getBookmarks } = BookmarksStore();
 
 const onLanguageChange = (lang: string) => {
   locale.value = lang;
@@ -32,21 +35,31 @@ const toggleTheme = (isLight: boolean) => {
 const openLoginPanel = () => {
   loginVisible.value = true;
 };
+
+const searchBookmarks = debounce(() => {
+  getBookmarks(searchValue.value);
+}, 200);
 </script>
 
 <template>
+  <img
+    alt="logo"
+    width="200"
+    src="https://compass-aiden.oss-cn-shanghai.aliyuncs.com/bookmarks/compass-bookmarks-logo-xinhuamozhu.jpg"
+  >
   <AppMenus />
-  <div>
+  <div class="flex items-center">
     <a-input
       class="cp-header__search mx-3"
-      v-model="searchValue"
+      v-model:value="searchValue"
+      @pressEnter="searchBookmarks"
       :placeholder="t('internalSearch')"
     >
       <template #suffix>
         <i-ant-design-search-outlined />
       </template>
     </a-input>
-    <div v-if="!context">
+    <div v-if="!getUserInfo">
       <a
         @click="openLoginPanel"
         @keydown="openLoginPanel"

@@ -89,6 +89,7 @@ export default defineConfig({
     proxy: {
       '/api/v1': {
         target: 'https://www.agilityjin.top',
+        // target: 'http://localhost:8080',
         changeOrigin: true, // 允许跨域
         // rewrite: (path) => path.replace('/api/', '/'),
       },

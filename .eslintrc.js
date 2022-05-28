@@ -14,6 +14,9 @@ module.exports = {
     window: true,
     defineProps: true,
     defineExpose: true,
+    defineStore: true,
+    useLocalStorage: true,
+    storeToRefs: true,
   },
   settings: {
     'import/core-modules': [ 'virtual:windi.css', 'virtual:windi-devtools' ],
