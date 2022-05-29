@@ -1,16 +1,14 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import { Theme } from '@compass-aiden/utils';
 import AppLoginModal from '~/components/login.vue';
 import { BookmarksStore, userStore } from '~/store';
 import { debounce } from 'lodash-es';
+import { Modal } from 'ant-design-vue';
 import AppMenus from './menus/menus.vue';
 
-const theme = inject<Theme>('Theme');
 const { t, locale } = useI18n();
 const searchValue = ref('');
 const loginVisible = ref(false);
-const isLightTheme = ref(theme?.getCurrentTheme() === 'light');
 const languageOptions = [{
   value: 'zh-CN',
   label: '中文',
@@ -20,16 +18,11 @@ const languageOptions = [{
 }];
 // eslint-disable-next-line no-undef
 const { getUserInfo } = storeToRefs(userStore());
-const { getBookmarks } = BookmarksStore();
+const { resetUserInfo } = userStore();
+const { getBookmarks, getCategories } = BookmarksStore();
 
 const onLanguageChange = (lang: string) => {
   locale.value = lang;
-};
-
-const toggleTheme = (isLight: boolean) => {
-  if (!theme) return;
-  isLightTheme.value = isLight;
-  theme.toggleTheme(isLight ? 'light' : 'dark');
 };
 
 const openLoginPanel = () => {
@@ -38,7 +31,18 @@ const openLoginPanel = () => {
 
 const searchBookmarks = debounce(() => {
   getBookmarks(searchValue.value);
+  getCategories(searchValue.value);
 }, 200);
+
+const exitLogin = () => {
+  Modal.confirm({
+    title: '退出登录',
+    content: '您确认退出登录吗?',
+    onOk: () => resetUserInfo(),
+    okText: '确认',
+    cancelText: '取消',
+  });
+};
 </script>
 
 <template>
@@ -67,19 +71,36 @@ const searchBookmarks = debounce(() => {
       |
       <a>{{ t('register') }}</a>
     </div>
-    <a-switch
-      class="!mx-3"
-      :checked="isLightTheme"
-      @change="toggleTheme"
-      :checked-children="t('defaultTheme')"
-      :un-checked-children="t('darkTheme')"
-    />
     <a-select
       v-model:value="locale"
       @change="onLanguageChange"
       style="width: 80px"
       :options="languageOptions"
     />
+    <a-dropdown :trigger="['click']">
+      <a-avatar
+        class="!ml-3 cursor-pointer"
+        v-if="getUserInfo"
+      >
+        {{ getUserInfo.nickname || getUserInfo.name }}
+        <template #icon>
+          <i-ant-design-user-outlined
+            style="height: 32px;"
+            v-if="!getUserInfo?.nickname && !getUserInfo?.name"
+          />
+        </template>
+      </a-avatar>
+      <template #overlay>
+        <a-menu>
+          <a-menu-item
+            @click="exitLogin"
+            key="quit"
+          >
+            退出登录
+          </a-menu-item>
+        </a-menu>
+      </template>
+    </a-dropdown>
   </div>
   <AppLoginModal v-model:visible="loginVisible" />
 </template>

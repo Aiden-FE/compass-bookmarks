@@ -1,4 +1,5 @@
 import { getBookmarks, getCategories } from '~/http';
+import {Bookmark} from "~/types";
 
 export default defineStore('bookmarks', {
   state: () => ({
@@ -7,16 +8,18 @@ export default defineStore('bookmarks', {
       name: '常用',
       bookmarks: [],
     }],
+    bookmarks: [] as Bookmark[],
     activeCategories: [] as number[],
   }),
   actions: {
     getBookmarks(keyword?: string) {
       getBookmarks(keyword).subscribe((result) => {
         this.categories[0].bookmarks = result.result.slice(0, 20);
+        this.bookmarks = result.result
       });
     },
-    getCategories() {
-      getCategories().subscribe((result) => {
+    getCategories(keyword?: string) {
+      getCategories(keyword).subscribe((result) => {
         this.categories = [this.categories[0]].concat(result.result);
         this.activeCategories = this.categories.map((category) => category.id);
       });

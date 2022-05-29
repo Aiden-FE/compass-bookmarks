@@ -13,7 +13,8 @@ import AppHeader from './views/layout/header.vue';
       <router-view />
     </a-layout-content>
     <a-layout-footer style="text-align: center">
-      Ant Design ©2018 Created by Ant UED
+      <a href="https://beian.miit.gov.cn/">赣ICP备17013449号-1</a>
+      <p>Compass ©2022 Created by <a href="https://github.com/Aiden-FE">Aiden</a></p>
     </a-layout-footer>
   </a-layout>
 </template>

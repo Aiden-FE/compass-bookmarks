@@ -1,4 +1,5 @@
 import { FormItemProps, FormProps } from 'ant-design-vue';
+import { Slot } from 'vue';
 
 interface CompassFormFieldDto {
   fieldType: 'input'
@@ -6,6 +7,7 @@ interface CompassFormFieldDto {
     | 'phone'
     | 'captcha'
     | 'emailCaptcha'
+    | 'select'
   // eslint-disable-next-line
   isShow?: (item: CompassFormItemType) => boolean
   placeholder?: string
@@ -32,16 +34,30 @@ export interface CompassFormEmailCaptchaFieldDto extends CompassFormFieldDto {
   beforeSendEmail: (field: CompassFormEmailCaptchaFieldDto) => Promise<boolean>
 }
 
+export interface CompassFormSelectFieldDto extends CompassFormFieldDto {
+  fieldType: 'select'
+  mode?: 'multiple' | 'tags' | 'combobox'
+  options?: {
+    value: unknown
+    label: string
+    disabled?: boolean
+    key?: unknown
+    title?: string
+  }[]
+  notFoundContent?: string | Slot
+}
+
 export type CompassFormItemType = (FormItemProps & (
   CompassFormPasswordFieldDto
   | CompassFormInputFieldDto
   | CompassFormPhoneFieldDto
   | CompassFormCaptchaFieldDto
   | CompassFormEmailCaptchaFieldDto
+  | CompassFormSelectFieldDto
 ))
 
-export class CompassFormSchema {
-  model: FormProps['model'];
+export class CompassFormSchema<Model = FormProps['model']> {
+  model: Model;
 
   layout?: FormProps['layout'];
 
@@ -54,7 +70,7 @@ export class CompassFormSchema {
   items?: CompassFormItemType[];
 
   constructor(opts: {[T in keyof CompassFormSchema]: CompassFormSchema[T]}) {
-    this.model = opts.model;
+    this.model = opts.model as Model;
     this.layout = opts.layout || 'horizontal';
     this.rules = opts.rules;
     this.items = opts.items;

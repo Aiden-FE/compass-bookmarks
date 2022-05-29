@@ -53,6 +53,8 @@ const onSearch = (keywordText: string) => {
 <style lang="stylus">
 +block(home)
   +element(banner)
+    background url("https://compass-aiden.oss-cn-shanghai.aliyuncs.com/common/banner-bg.jpg") no-repeat
+    background-size 100% 100%
     .ant-tabs > .ant-tabs-nav
       margin 0
     .ant-tabs-top > .ant-tabs-nav::before

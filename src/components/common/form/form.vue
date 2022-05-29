@@ -68,6 +68,11 @@ const validateFields = async (name?: string | string[]) => {
   return resp;
 };
 
+const resetFields = () => {
+  if (!cpForm.value) return;
+  cpForm.value?.resetFields();
+};
+
 const getEmailCaptcha = debounce(async (item: CompassFormEmailCaptchaFieldDto) => {
   emailLoading.value = true;
   if (item.beforeSendEmail) {
@@ -91,6 +96,7 @@ const getEmailCaptcha = debounce(async (item: CompassFormEmailCaptchaFieldDto) =
 
 defineExpose({
   validateFields,
+  resetFields,
 });
 
 getImgCaptcha();
@@ -117,6 +123,18 @@ getImgCaptcha();
         :name="item.name"
         class="cp-form__item"
       >
+        <a-select
+          v-if="item.fieldType === 'select'"
+          :class="{
+            ['cp-form__item-'+ item.fieldType]: true
+          }"
+          :mode="item.mode"
+          v-model:value="schemaRef.model[item.name]"
+          :placeholder="item.placeholder"
+          :options="item.options"
+          :not-found-content="item.notFoundContent"
+          show-arrow
+        />
         <a-input
           v-if="item.fieldType === 'input'"
           :class="{
