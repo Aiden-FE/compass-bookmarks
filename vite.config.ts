@@ -19,7 +19,7 @@ import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers';
  * @todo 如果目标是组件库,可采用vite-plugin-vue-docs生成文档
  */
 export default defineConfig({
-  base: './',
+  base: process.env.NODE_ENV === 'production' ? '/bookmarks/' : './',
   resolve: {
     alias: {
       'vue': 'vue/dist/vue.esm-bundler.js',
