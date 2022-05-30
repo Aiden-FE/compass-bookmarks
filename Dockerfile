@@ -7,7 +7,7 @@ ARG NGINX_CONF_FILE=./deploy/nginx.conf
 ARG NODE_ENV=production
 
 ENV APP_DIR=/root/bookmarks
-ENV NGINX_CONF_DIR=/etc/nginx/conf.d
+ENV NGINX_CONF_DIR=/etc/nginx
 
 WORKDIR ${APP_DIR}
 COPY . ${APP_DIR}
