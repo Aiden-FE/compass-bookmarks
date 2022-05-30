@@ -21,8 +21,8 @@ jobs:
             - v1-dependencies-
       - run:
           command: |
-            npm install
-            npm run build
+            yarn install
+            yarn run build
       - save_cache:
           paths:
             - node_modules
