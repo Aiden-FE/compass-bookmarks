@@ -21,8 +21,10 @@ jobs:
             - v1-dependencies-
       - run:
           command: |
-            yarn install
-            yarn run build
+            npm config set registry http://r.cnpmjs.org/
+            npm install pnpm --global
+            pnpm install
+            pnpm build
       - save_cache:
           paths:
             - node_modules
