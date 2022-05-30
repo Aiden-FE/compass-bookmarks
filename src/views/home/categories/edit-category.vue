@@ -8,16 +8,10 @@ import { BookmarksStore } from '~/store';
 import { message } from 'ant-design-vue';
 
 const { getCategories } = BookmarksStore();
-const props = defineProps({
-  visible: {
-    type: Boolean,
-    default: false,
-  },
-  category: {
-    type: Object,
-    default: null,
-  },
-});
+const props = defineProps<{
+  visible: boolean
+  category?: Category | null
+}>();
 const propRefs = toRefs(props);
 // eslint-disable-next-line no-unused-vars
 const emits = defineEmits<{(event: 'update:visible', val: boolean): void
@@ -55,8 +49,8 @@ const formSchema = reactive(new CompassFormSchema<Category>({
     }],
   },
 }));
-watch(propRefs.category, (val) => {
-  formSchema.model = { ...val } as Category;
+watch(propRefs.category as unknown as Category, (val) => {
+  formSchema.model = {...val};
 });
 
 function close() {
@@ -73,7 +67,7 @@ const submit = debounce(async () => {
     description: formSchema.model.description,
     parentId: formSchema.model.parentId,
   };
-  if (!propRefs.category.value) {
+  if (!propRefs.category?.value) {
     createCategory(params).subscribe(
       () => {
         getCategories();

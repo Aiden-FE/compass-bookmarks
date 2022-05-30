@@ -9,20 +9,11 @@ import { BookmarksStore } from '~/store';
 import { debounce } from 'lodash-es';
 
 const { getBookmarks, getCategories } = BookmarksStore();
-const props = defineProps({
-  visible: {
-    type: Boolean,
-    default: false,
-  },
-  bookmark: {
-    type: Object,
-    default: null,
-  },
-  categories: {
-    type: Array,
-    default: () => ([]),
-  },
-});
+const props = defineProps<{
+  visible: boolean
+  bookmark?: Bookmark | null
+  categories?: Category[]
+}>();
 const propRefs = toRefs(props);
 // eslint-disable-next-line no-unused-vars
 const emits = defineEmits<{(event: 'update:visible', val: boolean): void
@@ -79,11 +70,11 @@ const formSchema = reactive(new CompassFormSchema<Bookmark>({
   },
 }));
 
-watch(propRefs.bookmark, (val) => {
-  formSchema.model = { ...val } as Bookmark;
+watch(propRefs.bookmark as unknown as Bookmark, (val) => {
+  formSchema.model = {...val} as unknown as Bookmark;
 });
 watchEffect(() => {
-  if (!propRefs.categories.value || !propRefs.categories.value.length) return;
+  if (!propRefs.categories?.value || !propRefs.categories.value.length) return;
   const item = formSchema.items?.find((i) => i.name === 'categories' && i.fieldType === 'select') as CompassFormSelectFieldDto;
   item.options = (propRefs.categories.value as Category[])
     .filter((category) => category.id !== 0)
@@ -108,7 +99,7 @@ const submit = debounce(async () => {
     description: formSchema.model.description,
     categories: formSchema.model.categories || [],
   };
-  if (!propRefs.bookmark.value) {
+  if (!propRefs.bookmark?.value) {
     createBookmark(params).subscribe(
       () => {
         getBookmarks();

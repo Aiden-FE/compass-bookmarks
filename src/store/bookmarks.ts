@@ -1,13 +1,14 @@
 import { getBookmarks, getCategories } from '~/http';
-import {Bookmark} from "~/types";
+import {Bookmark, Category} from "~/types";
 
 export default defineStore('bookmarks', {
   state: () => ({
     categories: [{
       id: 0,
       name: '常用',
+      scoped: 'bookmarks',
       bookmarks: [],
-    }],
+    }] as Category[],
     bookmarks: [] as Bookmark[],
     activeCategories: [] as number[],
   }),

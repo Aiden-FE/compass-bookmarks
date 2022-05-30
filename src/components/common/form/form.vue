@@ -3,17 +3,14 @@ import { getImageCaptcha, sendEmailCaptcha } from '~/http';
 import { debounce } from 'lodash-es';
 import { FormInstance, message } from 'ant-design-vue';
 import { asyncTask } from '@compass-aiden/utils';
-import { Ref } from 'vue';
-import { CompassFormEmailCaptchaFieldDto, CompassFormSchema } from './form.dto';
+import { CompassFormEmailCaptchaFieldDto } from './form.dto';
+import {Ref} from "vue";
 
-const props = defineProps({
-  schema: {
-    type: CompassFormSchema,
-    required: true,
-  },
-});
+const props = defineProps<{
+  schema: any
+}>();
 const cpForm = ref<FormInstance>();
-const schemaRef = ref(props.schema) as Ref<CompassFormSchema>;
+const schemaRef: Ref<any> = ref(props.schema);
 const countryCode = ref('+86');
 const svgCaptcha = ref('');
 const emailTimer = ref(0);
@@ -44,7 +41,7 @@ function sendEmailInterval(initTimer?: number) {
 
 function hasPhone() {
   if (!schemaRef.value || !schemaRef.value.items) return false;
-  return schemaRef.value.items.some((item) => {
+  return schemaRef.value.items.some((item: any) => {
     if (item.fieldType === 'phone') {
       if (item.isShow) return item.isShow(item);
       return true;

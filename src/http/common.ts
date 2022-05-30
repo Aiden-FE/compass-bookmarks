@@ -3,6 +3,7 @@ import Http from './http';
 export function getImageCaptcha(query?: object) {
   return Http.get('open/captcha')
     .config({
+      // @ts-ignore
       disableResponseInterceptor: true,
     })
     .query(query);

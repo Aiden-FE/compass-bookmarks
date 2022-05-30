@@ -12,5 +12,5 @@ export interface Category {
   scoped: 'bookmarks'
   description?: string
   parentId?: number
-  bookmarks?: number[]
+  bookmarks?: Bookmark[]
 }
