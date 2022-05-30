@@ -3,7 +3,7 @@
 FROM docker378928518/fe-static:latest
 MAINTAINER Aiden_FE <Aiden_FE@outlook.com>
 
-ARG NGINX_CONF_FILE=./build/nginx.conf
+ARG NGINX_CONF_FILE=./deploy/nginx.conf
 ARG NODE_ENV=production
 
 ENV APP_DIR=/root/bookmarks
