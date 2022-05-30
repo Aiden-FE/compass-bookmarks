@@ -14,7 +14,8 @@
     "types": [
       "@intlify/vite-plugin-vue-i18n/client",
       "vue-i18n",
-      "@types/jest"
+      "@types/jest",
+      "@types/node"
     ],
     "baseUrl": ".",
     "paths": {
