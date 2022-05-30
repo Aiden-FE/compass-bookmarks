@@ -35,6 +35,7 @@ jobs:
             - dist
             - package.json
             - Dockerfile
+            - deploy
   publish docker:
     machine: true
     working_directory: ~/bookmarks
