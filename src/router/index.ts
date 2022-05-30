@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import NProgress from 'nprogress';
+import * as process from "process";
 
 const Home = () => import('~/views/home/home.vue');
 const User = () => import('~/views/user/user.vue');
@@ -10,7 +11,7 @@ const routes = [
 ];
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory(process.env.NODE_ENV === 'production' ? '/bookmarks/' : '/'),
   routes,
 });
 
