@@ -50,7 +50,7 @@ const formSchema = reactive(new CompassFormSchema<Category>({
   },
 }));
 watch(propRefs.category as unknown as Category, (val) => {
-  formSchema.model = {...val};
+  formSchema.model = { ...val };
 });
 
 function close() {

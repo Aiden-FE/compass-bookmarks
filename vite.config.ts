@@ -89,10 +89,11 @@ export default defineConfig({
     // 接口代理
     proxy: {
       '/api/v1': {
-        // target: 'https://www.agilityjin.top',
-        target: 'http://localhost:8080',
+        target: 'https://www.agilityjin.top',
+        // target: 'http://localhost:8080',
         changeOrigin: true, // 允许跨域
         // rewrite: (path) => path.replace('/api/', '/'),
+        secure: false,
       },
     },
   },

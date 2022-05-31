@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import { userStore } from '~/store';
-import { MenuInfo } from 'ant-design-vue/es/menu/src/interface'
+import { MenuInfo } from 'ant-design-vue/es/menu/src/interface';
+
 const { t } = useI18n();
 const { getUserInfo } = storeToRefs(userStore());
 

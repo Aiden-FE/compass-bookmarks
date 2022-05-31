@@ -31,6 +31,7 @@ export interface CompassFormCaptchaFieldDto extends CompassFormFieldDto {
 
 export interface CompassFormEmailCaptchaFieldDto extends CompassFormFieldDto {
   fieldType: 'emailCaptcha'
+  // eslint-disable-next-line no-unused-vars
   beforeSendEmail: (field: CompassFormEmailCaptchaFieldDto) => Promise<boolean>
 }
 

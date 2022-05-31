@@ -9,7 +9,9 @@ import AppEditCategory from './edit-category.vue';
 
 const { t } = useI18n();
 const { getCategories, getBookmarks } = BookmarksStore();
-const { categories, activeCategories, bookmarks } = storeToRefs(BookmarksStore());
+const {
+  categories, activeCategories, bookmarks, uncategorizedBookmarks,
+} = storeToRefs(BookmarksStore());
 const bookmarkPanel = ref(false);
 const editingBookmark = ref<Bookmark | null>(null);
 const categoryPanel = ref(false);
@@ -89,7 +91,7 @@ function categoryPanelClose() {
 
 function toggleExpand(isExp: boolean) {
   if (isExp) {
-    activeCategories.value = categories.value.map((category) => category.id);
+    activeCategories.value = categories.value.map((category) => category.id).concat(-1);
   } else {
     activeCategories.value = [];
   }
@@ -100,10 +102,16 @@ function toggleExpand(isExp: boolean) {
   <div class="cp-home-categories__header !mx-40 flex px-16px items-center">
     <div class="flex-1">
       <a-button
+        class="mr-3"
         type="primary"
         @click="editCategory()"
       >
         新建分类
+      </a-button>
+      <a-button
+        @click="editBookmark()"
+      >
+        新建书签
       </a-button>
     </div>
     <a-switch
@@ -122,7 +130,7 @@ function toggleExpand(isExp: boolean) {
     <a-collapse-panel
       v-for="item in categories"
       :key="item.id"
-      :header="item.name"
+      :header="`${item.name} (${item.bookmarks?.length || 0})`"
     >
       <template #extra>
         <a-dropdown v-if="item.id !== 0">
@@ -215,18 +223,73 @@ function toggleExpand(isExp: boolean) {
             </div>
           </a-card>
         </a-col>
-        <a-col :span="5">
+      </a-row>
+    </a-collapse-panel>
+    <a-collapse-panel
+      v-if="uncategorizedBookmarks?.length"
+      :key="-1"
+      :header="`未分类书签 (${uncategorizedBookmarks.length})`"
+    >
+      <a-row
+        justify="center"
+        :gutter="[16, 16]"
+      >
+        <a-col
+          v-for="bookmark in uncategorizedBookmarks"
+          :key="bookmark.id"
+          :span="5"
+        >
           <a-card
+            @click="openTarget(bookmark)"
             hoverable
-            @click="editBookmark()"
           >
-            <div class="h-145px relative">
-              <div class="cp-absolute-center text-center text-4xl pt-8 text-gray-500/80">
-                <i-ant-design-plus-outlined />
-                <p class="text-xs">
-                  添加新的书签
-                </p>
-              </div>
+            <template #title>
+              <a-avatar
+                :alt="bookmark.name"
+                :src="getImageFavicon(bookmark.url)"
+              />
+              <a-tooltip>
+                <template #title>
+                  {{ bookmark.name }}
+                </template>
+                {{ bookmark.name }}
+              </a-tooltip>
+            </template>
+            <template #extra>
+              <a-dropdown>
+                <i-ant-design-more-outlined @click.prevent />
+                <template #overlay>
+                  <a-menu>
+                    <a-menu-item key="edit">
+                      <a-button
+                        @click="editBookmark(bookmark)"
+                        type="link"
+                      >
+                        修改
+                      </a-button>
+                    </a-menu-item>
+                    <a-menu-item key="delete">
+                      <a-button
+                        type="link"
+                        @click="removeBookmark(bookmark)"
+                      >
+                        删除
+                      </a-button>
+                    </a-menu-item>
+                  </a-menu>
+                </template>
+              </a-dropdown>
+            </template>
+            <div class="h-80px">
+              <p v-if="bookmark.description">
+                {{ bookmark.description }}
+              </p>
+              <p
+                v-else
+                class="cp-home-categories__card_placeholder"
+              >
+                {{ t('noDescriptionAdded') }}
+              </p>
             </div>
           </a-card>
         </a-col>

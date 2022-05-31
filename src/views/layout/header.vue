@@ -16,7 +16,6 @@ const languageOptions = [{
   value: 'en',
   label: 'English',
 }];
-// eslint-disable-next-line no-undef
 const { getUserInfo } = storeToRefs(userStore());
 const { resetUserInfo } = userStore();
 const { getBookmarks, getCategories } = BookmarksStore();
@@ -56,14 +55,17 @@ const exitLogin = () => {
     <a-input
       class="cp-header__search mx-3"
       v-model:value="searchValue"
-      @pressEnter="searchBookmarks"
+      @press-enter="searchBookmarks"
       :placeholder="t('internalSearch')"
     >
       <template #suffix>
         <i-ant-design-search-outlined />
       </template>
     </a-input>
-    <div v-if="!getUserInfo">
+    <div
+      v-if="!getUserInfo"
+      class="mr-3"
+    >
       <a
         @click="openLoginPanel"
         @keydown="openLoginPanel"

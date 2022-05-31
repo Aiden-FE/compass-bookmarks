@@ -71,7 +71,7 @@ const formSchema = reactive(new CompassFormSchema<Bookmark>({
 }));
 
 watch(propRefs.bookmark as unknown as Bookmark, (val) => {
-  formSchema.model = {...val} as unknown as Bookmark;
+  formSchema.model = { ...val };
 });
 watchEffect(() => {
   if (!propRefs.categories?.value || !propRefs.categories.value.length) return;

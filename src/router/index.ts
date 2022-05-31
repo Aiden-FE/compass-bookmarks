@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import NProgress from 'nprogress';
-import {IS_PROD} from "~/config";
+import { IS_PROD } from '~/config';
 
 const Home = () => import('~/views/home/home.vue');
 const User = () => import('~/views/user/user.vue');

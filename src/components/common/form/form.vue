@@ -3,8 +3,8 @@ import { getImageCaptcha, sendEmailCaptcha } from '~/http';
 import { debounce } from 'lodash-es';
 import { FormInstance, message } from 'ant-design-vue';
 import { asyncTask } from '@compass-aiden/utils';
+import { Ref } from 'vue';
 import { CompassFormEmailCaptchaFieldDto } from './form.dto';
-import {Ref} from "vue";
 
 const props = defineProps<{
   schema: any
@@ -24,9 +24,7 @@ const getImgCaptcha = debounce(() => {
     (svg) => {
       svgCaptcha.value = svg;
     },
-    (err) => {
-      console.error(err);
-    },
+    () => message.warn('图片验证码获取失败'),
   );
 }, 200);
 

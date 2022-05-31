@@ -1,7 +1,7 @@
 import { Api } from '@compass-aiden/utils';
 import { ResponseInterceptorFn } from '@compass-aiden/utils/types/modules/api/_api.type';
 import { message } from 'ant-design-vue';
-import {userStore} from "~/store";
+import userStore from '~/store/user';
 
 const respInterceptor: ResponseInterceptorFn = (resp) => {
   if (resp.config.disableResponseInterceptor) {
@@ -28,16 +28,16 @@ const ApiInstance = new Api({
     response: [respInterceptor],
     error: (error) => {
       if (error.response?.status === 401) {
-        const {resetUserInfo} = userStore()
-        resetUserInfo()
-        message.warn('授权信息不存在或已过期')
-        return error
+        const { resetUserInfo } = userStore();
+        resetUserInfo();
+        message.warn('授权信息不存在或已过期');
+        return error;
       }
       message.error(error?.message || error);
       return error;
     },
     request: (req) => {
-      const {getUserInfo} = userStore();
+      const { getUserInfo } = userStore();
       if (getUserInfo && req.headers) {
         // eslint-disable-next-line no-param-reassign
         req.headers.Authorization = getUserInfo.token;
